@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2019.  BChekuri
+  ~
+  ~ Licensed under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~              http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<configuration status="WARN">
+    <Properties>
+		<Property name="log.dir">target/logs</Property>
+		<Property name="log.file.name">rest-api-traffic-logger</Property>
+        <Property name="log.level">DEBUG</Property>
+	</Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] ContextId:%X{ContextId} [%thread] [%c{1.}] - %m%n"/>
+        </Console>
+
+        <RollingFile name="RollingFile" fileName="${sys:log.dir}/${sys:log.file.name}"
+                     filePattern="${sys:log.dir}/${sys:log.file.name}.%d{dd-MM-yyyy}.log">
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] ContextId:%X{ContextId} [%thread] [%c{1.}] - %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="2" />
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+
+        <Async name="AsyncFileAppender">
+            <AppenderRef ref="RollingFile"/>
+        </Async>
+    </Appenders>
+
+    <Loggers>
+        <Root level="${sys:log.level}" additivity="false">
+            <AppenderRef ref="AsyncFileAppender"/>
+            <AppenderRef ref="Console"/>
+        </Root>
+
+        <logger name="main" level="${sys:log.level}" additivity="false" >
+            <AppenderRef ref="AsyncFileAppender"/>
+            <AppenderRef ref="Console"/>
+        </logger>
+    </Loggers>
+
+</configuration>

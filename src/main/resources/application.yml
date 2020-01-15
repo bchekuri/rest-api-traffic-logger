@@ -1,0 +1,100 @@
+spring:
+  application:
+    name: rest-api-traffic-logger
+  profiles:
+    active: "local,localDev"
+server:
+  port: 8080
+  servlet:
+    context-path: /restapitrafficlogger
+info:
+  app:
+    name: rest-api-traffic-logger
+    description: Simple Spring Boot Rest with request and response logging for very call
+    version: 1.0.0
+application:
+    name: rest-api-traffic-logger
+    correlation_id:
+      exclusions:
+        - /restapitrafficlogger/actuator/health
+        - /restapitrafficlogger/actuator/metrics
+        - /restapitrafficlogger/build/version
+        - /restapitrafficlogger/build/name
+management:
+  health:
+    diskspace:
+      enabled: true
+
+
+
+
+---
+
+
+spring:
+  profiles: local
+  datasource:
+    url: jdbc:h2:file:./target/h2/db/samplemicroservice;DB_CLOSE_DELAY=-1
+    username: admin
+    password: admin
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    database: H2
+    show-sql: false
+    properties:
+      hibernate.cache.use_query_cache: false
+      hibernate.cache.use_second_level_cache: false
+      hibernate.generate_statistics: false
+
+
+---
+
+
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:h2:file:./target/h2/db/samplemicroservice;DB_CLOSE_DELAY=-1
+    username: admin
+    password: admin
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    database: H2
+    show-sql: false
+    properties:
+      hibernate.cache.use_query_cache: false
+      hibernate.cache.use_second_level_cache: false
+      hibernate.generate_statistics: false
+
+---
+
+spring:
+  profiles: qa
+  datasource:
+    url: jdbc:h2:file:./target/h2/db/samplemicroservice;DB_CLOSE_DELAY=-1
+    username: admin
+    password: admin
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    database: H2
+    show-sql: false
+    properties:
+      hibernate.cache.use_query_cache: false
+      hibernate.cache.use_second_level_cache: false
+      hibernate.generate_statistics: false
+
+---
+
+spring:
+  profiles: prod
+  datasource:
+    url: jdbc:h2:file:./target/h2/db/samplemicroservice;DB_CLOSE_DELAY=-1
+    username: admin
+    password: admin
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    database: H2
+    show-sql: false
+    properties:
+      hibernate.cache.use_query_cache: false
+      hibernate.cache.use_second_level_cache: false
+      hibernate.generate_statistics: false
